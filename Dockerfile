@@ -16,4 +16,6 @@ RUN npm install -g @vue/cli
 
 WORKDIR /var/application
 
+RUN npm install
+
 CMD ["npm", "run", "dev"]
