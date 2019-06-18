@@ -1,18 +1,43 @@
 image: ubuntu:latest
 
 stages:
+  - setup
+  - build
   - deploy
 
-deploy_application_master:
-  stage: deploy
-  environment:
-    name: Production
+cache:
+  untracked: true
+  paths:
+    - ./application/build
+
+setup:
+  stage: setup
   before_script:
     - apt-get update -qq
     - apt-get install -qq openssh-client
     - apt-get -y install nodejs
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
+only:
+  - master
+
+build:
+  stage: build
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    when: always
+    expire_in: 2h20min
+    paths:
+      - ./application/build
+  script:
+    - cd application
+    - npm install
+    - npm run build
+
+deploy_application_master:
+  stage: deploy
+  environment:
+    name: Production
   script:
     - ssh -o StrictHostKeyChecking=no ejunior@kokkua.com "sudo sh /home/ejunior/scripts/deploy/production.sh && exit"
   only:
