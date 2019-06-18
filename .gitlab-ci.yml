@@ -6,7 +6,6 @@ stages:
   - deploy 
 
 cache:
-  untracked: true
   paths:
     - ./application/build
 
