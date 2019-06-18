@@ -6,13 +6,13 @@ stages:
 
 cache:
   paths:
-    - ./application/build
+    - ./application/dist
 
 build master:
   stage: build
   artifacts:
     paths:
-      - ./application/build
+      - ./application/dist
   before_script:
     - apt-get update -qq
     - apt-get install -qq openssh-client
