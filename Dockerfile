@@ -14,6 +14,8 @@ RUN npm install vue
 
 RUN npm install -g @vue/cli
 
+COPY ./application /var/application
+
 WORKDIR /var/application
 
 RUN npm install
