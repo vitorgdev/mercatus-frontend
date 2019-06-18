@@ -3,7 +3,7 @@ image: ubuntu:latest
 stages:
   - setup
   - build
-  - deploy
+  - deploy 
 
 cache:
   untracked: true
