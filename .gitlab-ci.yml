@@ -11,15 +11,12 @@ cache:
 build master:
   stage: build
   artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
-    when: always
-    expire_in: 2h20min
     paths:
       - ./application/build
   before_script:
     - apt-get update -qq
     - apt-get install -qq openssh-client
-    - apt-get -y install nodejs
+    - apt-get -y install nodejs npm
   script:
     - cd application
     - npm install
