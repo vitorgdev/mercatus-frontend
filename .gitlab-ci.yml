@@ -19,7 +19,7 @@ build master:
     - apt-get -y install nodejs npm
   script:
     - cd application
-    - npm install
+    - npm update
     - npm run build
 
 deploy master:
