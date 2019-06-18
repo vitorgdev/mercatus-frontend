@@ -18,6 +18,7 @@ build master:
     - apt-get install -qq openssh-client
     - apt-get -y install nodejs npm
   script:
+    - echo ${CI_JOB_ID}
     - cd application
     - npm update
     - npm run build
@@ -30,6 +31,6 @@ deploy master:
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
   script:
-    - ssh -o StrictHostKeyChecking=no ejunior@kokkua.com "sudo sh /home/ejunior/scripts/deploy/production.sh && exit"
+    - ssh -o StrictHostKeyChecking=no ejunior@kokkua.com "sudo sh /home/ejunior/scripts/deploy/production/frontend.sh && exit"
   only:
     - master
