@@ -10,7 +10,7 @@ deploy_application_master:
   before_script:
     - apt-get update -qq
     - apt-get install -qq openssh-client
-    - apt-get -y install node npm
+    - apt-get -y install nodejs
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
   script:
