@@ -18,8 +18,8 @@ setup:
     - apt-get -y install nodejs
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
-only:
-  - master
+  only:
+    - master
 
 build:
   stage: build
