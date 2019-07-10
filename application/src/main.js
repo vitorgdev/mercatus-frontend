@@ -5,6 +5,12 @@ import store from './store'
 import './registerServiceWorker'
 import BootstrapVue from 'bootstrap-vue'
 import './assets/scss/medical.scss'
+import Vuelidate from 'vuelidate'
+import Api from './api'
+
+Api.init()
+
+Vue.use(Vuelidate)
 
 Vue.use(BootstrapVue)
 

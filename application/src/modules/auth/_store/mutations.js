@@ -1,7 +1,10 @@
-const GENERATED_NUMBER = (state, number) => {
-  state.number = number
+import JWT from '../../../api/jwt'
+
+const USER_AUTHENTICATED = (state, user) => {
+  state.user = user.user
+  JWT.saveToken(user.token)
 }
 
 export default {
-  GENERATED_NUMBER
+  USER_AUTHENTICATED
 }

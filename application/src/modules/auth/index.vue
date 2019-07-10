@@ -1,7 +1,7 @@
 <template>
   <div class="auth-background">
     <b-container>
-      <b-row>
+      <b-row align-v="center">
         <b-col cols="6">
           <b-row>
             <b-col
@@ -29,7 +29,7 @@
           </b-row>
           <b-row class="mt-3">
             <b-col cols="8">
-              <span class="description text-white">toda sua empresa em um sistema.</span>
+              <span class="description text-white font-weight-regular">toda sua empresa em um sistema.</span>
             </b-col>
           </b-row>
           <b-row>
@@ -37,7 +37,126 @@
               cols="8"
               class="text-right"
             >
-              <span class="title text-grey">saiba mais <img :src="arrow" alt=""></span>
+              <span class="title text-grey">saiba mais <img
+                  :src="arrow"
+                  alt=""
+                ></span>
+            </b-col>
+          </b-row>
+          <b-row class="mt-5">
+            <b-col class="system">
+              <div></div>
+            </b-col>
+            <b-col class="system">
+              <div></div>
+            </b-col>
+            <b-col class="system">
+              <div></div>
+            </b-col>
+            <b-col class="system">
+              <div></div>
+            </b-col>
+          </b-row>
+          <b-row class="mt-5">
+            <b-col class="system">
+              <div></div>
+            </b-col>
+            <b-col class="system">
+              <div></div>
+            </b-col>
+            <b-col class="system">
+              <div></div>
+            </b-col>
+            <b-col class="system">
+              <div></div>
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col>
+          <b-row align-h="end">
+            <b-col cols="8">
+              <b-card>
+                <b-card-title>
+                  <b-row>
+                    <b-col>
+                      <div class="d-flex justify-content-center">
+                        <img
+                          width="50%"
+                          :src="avatar"
+                        />
+                      </div>
+                    </b-col>
+                  </b-row>
+                </b-card-title>
+                <b-card-text class="mt-5">
+                  <b-row>
+                    <b-col>
+                      <b-form @submit.stop.prevent="onSubmit">
+                        <b-input-group id="email-group">
+                          <b-input-group-text slot="prepend">
+                            <font-awesome-icon :icon="userIcon" />
+                          </b-input-group-text>
+                          <b-form-input
+                            :state="$v.form.email.$dirty ? !$v.form.email.$error : null"
+                            aria-describedby="input-1-live-feedback"
+                            class="med-borderless"
+                            id="email"
+                            v-model="$v.form.email.$model"
+                            type="email"
+                            required
+                            placeholder="Email"
+                          ></b-form-input>
+                          <b-form-invalid-feedback id="input-live-feedback">
+                            <span v-if="$v.form.email.$model.length == ''">Esse campo é obrigatório.</span>
+                            <span v-else>O formato deve ser: fulano@algo.algo!</span>
+                          </b-form-invalid-feedback>
+                        </b-input-group>
+                        <b-input-group
+                          id="email-group"
+                          class="mt-4"
+                        >
+                          <b-input-group-text slot="prepend">
+                            <font-awesome-icon :icon="lockIcon" />
+                          </b-input-group-text>
+                          <b-form-input
+                            :state="$v.form.password.$dirty ? !$v.form.password.$error : null"
+                            class="med-borderless"
+                            id="password"
+                            v-model="$v.form.password.$model"
+                            type="password"
+                            required
+                            placeholder="Senha"
+                          ></b-form-input>
+                          <b-form-invalid-feedback id="input-live-feedback">
+                            <span>Esse campo é obrigatório.</span>
+                          </b-form-invalid-feedback>
+                        </b-input-group>
+                        <div class="d-flex justify-content-center mt-5">
+                          <b-button
+                            type="submit"
+                            :disabled="$v.form.$invalid"
+                            variant="purple"
+                          >
+                            ENTRAR
+                          </b-button>
+                        </div>
+                      </b-form>
+                    </b-col>
+                  </b-row>
+                </b-card-text>
+                <b-row>
+                  <b-col
+                    class="text-center mt-4"
+                    cols="12"
+                  ><span style="color: #7D7D7D">esqueceu a senha?? nós resolvemos.</span></b-col>
+                  <b-col class="text-center">
+                    <b-link
+                      class=""
+                      style="color: #292939; font-size: 1.5rem"
+                    >clique aqui!</b-link>
+                  </b-col>
+                </b-row>
+              </b-card>
             </b-col>
           </b-row>
         </b-col>
@@ -47,39 +166,75 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
-// import store from './_store'
-import Logo from "../../assets/images/logo.svg";
-import Arrow from "../../assets/images/arrow.svg";
+import store from './_store'
+import Logo from '../../assets/images/logo.svg'
+import Arrow from '../../assets/images/arrow.svg'
+import Avatar from '../../assets/images/man.svg'
+
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faUser, faLock } from '@fortawesome/free-solid-svg-icons'
+import { required, email } from 'vuelidate/lib/validators'
+
 export default {
   name: 'AuthScreen',
+  components: {
+    FontAwesomeIcon
+  },
   data () {
     return {
       logo: Logo,
-      arrow: Arrow
+      arrow: Arrow,
+      avatar: Avatar,
+      userIcon: faUser,
+      lockIcon: faLock,
+      form: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  validations: {
+    form: {
+      email: {
+        required,
+        email
+      },
+      password: {
+        required
+      }
+    }
+  },
+  created () {
+    const STORE_KEY = '$_auth'
+    // eslint-disable-next-line no-underscore-dangle
+    if (!(STORE_KEY in this.$store._modules.root._children)) {
+      this.$store.registerModule(STORE_KEY, store)
+    }
+  },
+  methods: {
+    onSubmit () {
+      this.$v.form.$touch()
+      if (this.$v.form.$error) return
+      this.$store.dispatch('$_auth/authenticate', this.form)
     }
   }
-  // components: {
-  //   ChatList
-  // },
-  // computed: {
-  //   ...mapGetters({
-  //     messages: "$_chat/messages"
-  //   })
-  // },
-  // created() {
-  //   const STORE_KEY = "$_chat";
-  //   // eslint-disable-next-line no-underscore-dangle
-  //   if (!(STORE_KEY in this.$store._modules.root._children)) {
-  //     this.$store.registerModule(STORE_KEY, store);
-  //   }
-  // },
-  // mounted() {
-  //   this.$store.dispatch("$_chat/getMessages");
-  // }
 }
 </script>
 <style lang="scss" scoped>
+.system {
+  div {
+    width: 80px;
+    height: 80px;
+    background-color: #dfdfe2;
+    box-shadow: 0px 2px 6px #636363;
+  }
+  top: 0px;
+  transition: all 50ms linear;
+  &:hover {
+    top: -10px;
+    transition: all 100ms linear;
+  }
+}
 .auth-background {
   background-image: url("../../assets/images/background-authentication.svg");
   background-position: center; /* Center the image */
@@ -96,7 +251,7 @@ export default {
     }
   }
   .title {
-    font-size: 28px;
+    font-size: 1.2rem;
     color: #dfdfe2;
     &.red-line {
       &:before {
@@ -105,14 +260,14 @@ export default {
         width: 20%;
         /* height: 0px; */
         border: 1px solid red;
-        top: 40px;
+        top: 25px;
       }
     }
   }
   .description {
-    font-size: 60px;
+    font-size: 2.2rem;
     font-family: "Inconsolata", monospace;
-    line-height: 60px;
+    line-height: 2.5rem;
   }
 }
 </style>

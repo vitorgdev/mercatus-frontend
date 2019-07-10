@@ -1,5 +1,5 @@
-const numbers = state => state.numbers
+const user = state => state.user
 
 export default {
-  numbers
+  user
 }

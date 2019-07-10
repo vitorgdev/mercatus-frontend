@@ -2,10 +2,12 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+import JWT from './jwt'
+
 const Api = {
   init () {
     Vue.use(VueAxios, axios)
-    Vue.axios.defaults.baseURL = `http://localhost:3000/v1/`
+    Vue.axios.defaults.baseURL = `http://api.dev.med.kokkua.com/v1/`
     this.setupHeaders()
     Vue.axios.interceptors.response.use(function (response) {
       return response
@@ -13,6 +15,7 @@ const Api = {
   },
 
   setupHeaders () {
+    Vue.axios.defaults.headers.common['Authorization'] = `Bearer ${JWT.getToken()}`
     Vue.axios.defaults.headers.common['Content-Type'] = 'application/json'
     Vue.axios.defaults.headers.common['Accept'] = 'application/json';
     ['get', 'post', 'put', 'patch'].forEach(function (method) {
@@ -59,7 +62,7 @@ const Api = {
     })
   },
 
-  put (resource, id, params) {
+  async put (resource, id, params) {
     return new Promise(resolve => {
       const result = Vue.axios.put(`${resource}/${id}`, JSON.stringify(params))
       resolve(result)
