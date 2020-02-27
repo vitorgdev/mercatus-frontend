@@ -6,7 +6,7 @@ import './registerServiceWorker'
 import './assets/scss/medical.scss'
 import Vuelidate from 'vuelidate'
 import Api from './api'
-import vuetify from './plugins/vuetify';
+import vuetify from './plugins/vuetify'
 
 Api.init()
 

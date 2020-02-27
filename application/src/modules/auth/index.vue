@@ -161,21 +161,21 @@
 </template>
 
 <script>
-import store from "./_store";
-import Logo from "../../assets/images/logo.svg";
-import Arrow from "../../assets/images/arrow.svg";
-import Avatar from "../../assets/images/man.svg";
+import store from './_store'
+import Logo from '../../assets/images/logo.svg'
+import Arrow from '../../assets/images/arrow.svg'
+import Avatar from '../../assets/images/man.svg'
 
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import { required, email } from "vuelidate/lib/validators";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faUser, faLock } from '@fortawesome/free-solid-svg-icons'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
-  name: "AuthScreen",
+  name: 'AuthScreen',
   components: {
     FontAwesomeIcon
   },
-  data() {
+  data () {
     return {
       logo: Logo,
       arrow: Arrow,
@@ -183,10 +183,10 @@ export default {
       userIcon: faUser,
       lockIcon: faLock,
       form: {
-        email: "",
-        password: ""
+        email: '',
+        password: ''
       }
-    };
+    }
   },
   validations: {
     form: {
@@ -199,21 +199,21 @@ export default {
       }
     }
   },
-  created() {
-    const STORE_KEY = "$_auth";
+  created () {
+    const STORE_KEY = '$_auth'
     // eslint-disable-next-line no-underscore-dangle
     if (!(STORE_KEY in this.$store._modules.root._children)) {
-      this.$store.registerModule(STORE_KEY, store);
+      this.$store.registerModule(STORE_KEY, store)
     }
   },
   methods: {
-    onSubmit() {
-      this.$v.form.$touch();
-      if (this.$v.form.$error) return;
-      this.$store.dispatch("$_auth/authenticate", this.form);
+    onSubmit () {
+      this.$v.form.$touch()
+      if (this.$v.form.$error) return
+      this.$store.dispatch('$_auth/authenticate', this.form)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .system {
