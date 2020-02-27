@@ -1,0 +1,12 @@
+.btn-purple {
+  background-color: #793f5c !important;
+  color: #dfdfe2 !important;
+  border-radius: 0px !important;
+  box-shadow: 3px 3px 0px rgba($color: #000000, $alpha: 0.16),-3px -3px 0px rgba($color: #000000, $alpha: 0.16);
+  padding: 4px 40px !important;
+  transition: all 200ms ease-in;
+  &:hover {
+    // box-shadow: none !important;
+    background-color: rgba($color: #793f5c, $alpha: 0.9) !important;
+  }
+}
