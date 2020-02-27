@@ -9,7 +9,7 @@
             </v-col>
 
             <v-col class="identity" align-self="center">
-              <span class="text-white display-5">kokkua</span>
+              <span class="white--text display-1">kokkua</span>
             </v-col>
           </v-row>
           <v-row style="margin-top:20%">
