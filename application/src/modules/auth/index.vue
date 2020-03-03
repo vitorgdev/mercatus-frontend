@@ -9,25 +9,25 @@
             </v-col>
 
             <v-col class="identity" align-self="center">
-              <span class="white--text display-1">kokkua</span>
+              <span class="white--text display-2">kokkua</span>
             </v-col>
           </v-row>
           <v-row style="margin-top:20%">
             <v-col>
-              <span class="title red-line text-grey">kokkua apresenta</span>
+              <span class="headline red-line">kokkua apresenta</span>
             </v-col>
           </v-row>
           <v-row class="mt-3">
             <v-col cols="8">
-              <span class="description text-white font-weight-regular"
+              <span class="description white--text display-3"
                 >toda sua empresa em um sistema.</span
               >
             </v-col>
           </v-row>
           <v-row>
             <v-col cols="8" class="text-right">
-              <span class="title text-grey"
-                >saiba mais <img :src="arrow" alt=""
+              <span class="headline more"
+                >saiba mais <img :src="arrow" width="15em" alt=""
               /></span>
             </v-col>
           </v-row>
@@ -61,13 +61,13 @@
           </v-row>
         </v-col>
         <v-col>
-          <v-row align-h="end">
+          <v-row justify="end" align="center" style="height: 100%">
             <v-col cols="8">
               <v-card>
                 <v-card-title>
                   <v-row>
                     <v-col>
-                      <div class="d-flex justify-content-center">
+                      <div justify="center">
                         <img width="50%" :src="avatar" />
                       </div>
                     </v-col>
@@ -161,21 +161,21 @@
 </template>
 
 <script>
-import store from './_store'
-import Logo from '../../assets/images/logo.svg'
-import Arrow from '../../assets/images/arrow.svg'
-import Avatar from '../../assets/images/man.svg'
+import store from "./_store";
+import Logo from "../../assets/images/logo.svg";
+import Arrow from "../../assets/images/arrow.svg";
+import Avatar from "../../assets/images/man.svg";
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUser, faLock } from '@fortawesome/free-solid-svg-icons'
-import { required, email } from 'vuelidate/lib/validators'
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
+import { required, email } from "vuelidate/lib/validators";
 
 export default {
-  name: 'AuthScreen',
+  name: "AuthScreen",
   components: {
     FontAwesomeIcon
   },
-  data () {
+  data() {
     return {
       logo: Logo,
       arrow: Arrow,
@@ -183,10 +183,10 @@ export default {
       userIcon: faUser,
       lockIcon: faLock,
       form: {
-        email: '',
-        password: ''
+        email: "",
+        password: ""
       }
-    }
+    };
   },
   validations: {
     form: {
@@ -199,23 +199,24 @@ export default {
       }
     }
   },
-  created () {
-    const STORE_KEY = '$_auth'
+  created() {
+    const STORE_KEY = "$_auth";
     // eslint-disable-next-line no-underscore-dangle
     if (!(STORE_KEY in this.$store._modules.root._children)) {
-      this.$store.registerModule(STORE_KEY, store)
+      this.$store.registerModule(STORE_KEY, store);
     }
   },
   methods: {
-    onSubmit () {
-      this.$v.form.$touch()
-      if (this.$v.form.$error) return
-      this.$store.dispatch('$_auth/authenticate', this.form)
+    onSubmit() {
+      this.$v.form.$touch();
+      if (this.$v.form.$error) return;
+      this.$store.dispatch("$_auth/authenticate", this.form);
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
+@import "@/assets/scss/md/_colors.scss";
 .system {
   div {
     width: 80px;
@@ -241,28 +242,34 @@ export default {
   padding-top: 3%;
   .identity {
     span {
-      font-size: 42px;
       font-weight: bold;
     }
   }
-  .title {
-    font-size: 1.2rem;
-    color: #dfdfe2;
+  .headline {
+    &.more {
+      transition: border-color 500ms ease;
+      border-bottom: 1px solid transparent;
+      cursor: pointer;
+      &:hover {
+        border-bottom: 1px solid red;
+      }
+    }
+    color: $grey-light;
     &.red-line {
       &:before {
         content: "";
         position: absolute;
-        width: 20%;
+        width: 7%;
         /* height: 0px; */
         border: 1px solid red;
-        top: 25px;
+        margin-top: 1.4em;
       }
     }
   }
   .description {
     font-size: 2.2rem;
-    font-family: "Inconsolata", monospace;
-    line-height: 2.5rem;
+    font-family: "Inconsolata", monospace !important;
+    line-height: 4rem;
   }
 }
 </style>

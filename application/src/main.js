@@ -8,6 +8,8 @@ import Vuelidate from 'vuelidate'
 import Api from './api'
 import vuetify from './plugins/vuetify'
 
+import "./sass/variables.scss"
+
 Api.init()
 
 Vue.use(Vuelidate)
