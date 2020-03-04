@@ -64,10 +64,10 @@
           <v-row justify="end" align="center" style="height: 100%">
             <v-col cols="8">
               <v-card>
-                <v-card-title>
+                <v-card-title class="login-screen">
                   <v-row>
-                    <v-col>
-                      <div justify="center">
+                    <v-col align="center">
+                      <div>
                         <img width="50%" :src="avatar" />
                       </div>
                     </v-col>
@@ -78,24 +78,10 @@
                     <v-col>
                       <b-form @submit.stop.prevent="onSubmit">
                         <b-input-group id="email-group">
-                          <b-input-group-text slot="prepend">
-                            <font-awesome-icon :icon="userIcon" />
-                          </b-input-group-text>
-                          <b-form-input
-                            autocomplete="off"
-                            :state="
-                              $v.form.email.$dirty
-                                ? !$v.form.email.$error
-                                : null
-                            "
-                            aria-describedby="input-1-live-feedback"
-                            class="med-borderless"
-                            id="email"
-                            v-model="$v.form.email.$model"
-                            type="email"
-                            required
-                            placeholder="Email"
-                          ></b-form-input>
+                          <v-text-field
+                            label="Prepend inner"
+                            prepend-inner-icon="place"
+                          ></v-text-field>
                           <b-form-invalid-feedback id="input-live-feedback">
                             <span v-if="$v.form.email.$model.length == ''"
                               >Esse campo é obrigatório.</span
@@ -217,6 +203,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/assets/scss/md/_colors.scss";
+.login-screen {
+  padding-top: 2em;
+}
 .system {
   div {
     width: 80px;
