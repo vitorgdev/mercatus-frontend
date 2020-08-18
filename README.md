@@ -1,8 +1,39 @@
-# Kokkua Medical
+# application
 
-## Status
+## Project setup
+```
+npm install
+```
 
-| Environment | Pipeline | Coverage Report |
-|:--- |:--- |:--- |
-| Master | [![pipeline status](https://gitlab.com/kokkua/medical-frontend/badges/master/pipeline.svg)](https://gitlab.com/kokkua/medical-frontend/commits/master) | ![coverage](https://gitlab.com/gitlab-org/gitlab-ce/badges/master/coverage.svg?job=coverage) |
-| Homologation | [![pipeline status](https://gitlab.com/kokkua/medical-frontend/badges/hom/pipeline.svg)](https://gitlab.com/kokkua/medical-frontend/commits/hom) | ![coverage](https://gitlab.com/gitlab-org/gitlab-ce/badges/hom/coverage.svg?job=coverage) |
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Run your end-to-end tests
+```
+npm run test:e2e
+```
+
+### Run your unit tests
+```
+npm run test:unit
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
