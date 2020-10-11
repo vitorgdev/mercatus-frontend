@@ -21,7 +21,7 @@
           <v-row>
             <v-col>
               <validation-observer ref="observer">
-                <v-form>
+                <v-form @submit="submit">
                   <validation-provider
                     v-slot="{ errors }"
                     name="Usuário"
