@@ -1,32 +1,38 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app :class="authenticated ? '' : 'login__backgroundcolor'">
+    <AppBar v-if="authenticated" />
+    <Sidebar v-if="authenticated" />
+    <v-main>
+      <v-container :style="authenticated ? '' : 'height: 100vh'">
+        <Component :is="authenticated ? 'HelloWorld' : 'Login'" />
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import HelloWorld from "./components/HelloWorld";
+import AppBar from "./components/layout/AppBar";
+import Sidebar from "./components/layout/Sidebar";
+import { mapGetters } from "vuex";
+import Login from "../src/modules/auth";
 
-#nav {
-  padding: 30px;
+export default {
+  name: "App",
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  computed: {
+    ...mapGetters({ authenticated: "$_auth/authenticated" })
+  },
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+  components: {
+    HelloWorld,
+    AppBar,
+    Sidebar,
+    Login
+  },
+
+  data: () => ({
+    //
+  })
+};
+</script>
