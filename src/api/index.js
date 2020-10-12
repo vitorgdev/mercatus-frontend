@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import Router from "../router";
+
 import JWT from "./jwt";
 
 // const config = {
@@ -21,8 +23,21 @@ const Api = {
     ["get", "post", "put", "delete"].forEach(method => {
       axios.defaults.headers[method]["Content-Type"] = "application/json";
     });
+    axios.interceptors.response.use(function(response) {
+      return response;
+    }, this.handlerError);
   },
-
+  async handlerError(error) {
+    console.log("entoru");
+    var errors = {
+      "401": function() {
+        JWT.destroyToken();
+        Router.push({ name: "login" });
+        return "Não Autenticado";
+      }
+    };
+    return errors[error.response.status]();
+  },
   async query(resource, data) {
     return new Promise(resolve => {
       const result = axios.get(resource, { params: data });
