@@ -54,7 +54,15 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn type="submit" x-large expansed color="primary" tile block>
+              <v-btn
+                :loading="loading"
+                type="submit"
+                x-large
+                expansed
+                color="primary"
+                tile
+                block
+              >
                 Entrar
               </v-btn>
             </v-card-actions>
@@ -90,6 +98,7 @@ export default {
   data() {
     return {
       errors: null,
+      loading: false,
       form: {
         username: "",
         password: ""
@@ -100,7 +109,9 @@ export default {
   methods: {
     async submit() {
       if (await this.$refs.observer.validate()) {
+        this.loading = true;
         await this.$store.dispatch("$_auth/getAuthenticate", this.form);
+        this.loading = false;
         this.$router.push("/");
       }
     }

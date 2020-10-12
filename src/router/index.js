@@ -8,10 +8,9 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "dashboard",
     meta: { requiresAuth: true, requiresPermission: true },
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    component: () => import("../modules/dashboard")
   },
   {
     path: "/login",

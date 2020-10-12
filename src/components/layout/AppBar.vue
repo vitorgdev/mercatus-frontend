@@ -1,19 +1,13 @@
 <template>
-  <v-app-bar app clipped-left color="white" light>
+  <v-app-bar app clipped-left clipped-right color="white" light>
     <v-btn text @click="backRoute">
       <span class="text-h6 font-weight-regular text-uppercase">PISTORIUM</span>
     </v-btn>
 
     <v-spacer></v-spacer>
-
-    <v-btn
-      href="https://github.com/vuetifyjs/vuetify/releases/latest"
-      target="_blank"
-      text
-    >
+    <v-btn @click="openUserBar" target="_blank" icon>
       <v-badge
         dot
-        class="mr-6"
         :content="countMessages"
         :value="countMessages"
         color="#FF402E"
@@ -21,7 +15,8 @@
       >
         <v-icon color="accent">mdi-bell</v-icon>
       </v-badge>
-
+    </v-btn>
+    <v-btn @click="openUserBar" target="_blank" text>
       <span class="mr-2">Olá, {{ `${firstName} ${lastName}` }}</span>
       <v-icon color="accent">mdi-account</v-icon>
     </v-btn>
@@ -54,6 +49,9 @@ export default {
     },
     backRoute() {
       this.$router.push({ name: "home" });
+    },
+    openUserBar() {
+      this.$emit("rightUserBar", true);
     }
   }
 };
