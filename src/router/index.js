@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 
 import Authentication from "./middlewares/authentication";
 
@@ -10,11 +9,19 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    meta: { requiresAuth: true, requiresPermission: true },
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue")
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../modules/auth")
   },
   {
     path: "/about",
     name: "About",
+    meta: { requiresAuth: true, requiresPermission: true },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -29,9 +36,17 @@ const router = new VueRouter({
   routes
 });
 
-router.beforeEach((to, from, next) => {
-  Authentication.verifyAuth();
-  next();
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    const authPermission = await Authentication.verifyAuth();
+    console.log(authPermission);
+    if (!authPermission) {
+      next({ name: "login" });
+    }
+    next();
+  } else {
+    next();
+  }
 });
 
 export default router;

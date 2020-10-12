@@ -1,38 +1,62 @@
 <template>
-  <v-app :class="authenticated ? '' : 'login__backgroundcolor'">
-    <AppBar v-if="authenticated" />
-    <Sidebar v-if="authenticated" />
-    <v-main>
-      <v-container :style="authenticated ? '' : 'height: 100vh'">
-        <Component :is="authenticated ? 'HelloWorld' : 'Login'" />
-      </v-container>
-    </v-main>
-  </v-app>
+  <VApp>
+    <Component :is="layout" />
+  </VApp>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
-import AppBar from "./components/layout/AppBar";
-import Sidebar from "./components/layout/Sidebar";
+import Base from "./components/layout/Base";
+import Blank from "./components/layout/Blank";
+const STORE_KEY = "$_auth";
 import { mapGetters } from "vuex";
-import Login from "../src/modules/auth";
+
+import JWT from "./api/jwt";
+
+import storeAuth from "./modules/auth/_store";
 
 export default {
   name: "App",
+
+  data: () => ({
+    layout: ""
+  }),
 
   computed: {
     ...mapGetters({ authenticated: "$_auth/authenticated" })
   },
 
-  components: {
-    HelloWorld,
-    AppBar,
-    Sidebar,
-    Login
+  created() {
+    if (!(STORE_KEY in this.$store._modules.root._children)) {
+      this.$store.registerModule(STORE_KEY, storeAuth);
+    }
   },
 
-  data: () => ({
-    //
-  })
+  components: {
+    Base,
+    Blank
+  },
+
+  watch: {
+    async $route(newVal) {
+      switch (newVal.name) {
+        case "login":
+          if (JWT.getToken()) {
+            await this.$router.push("/");
+            this.layout = Base;
+          } else {
+            this.layout = Blank;
+          }
+          break;
+        default:
+          if (JWT.getToken()) {
+            this.layout = Base;
+          } else {
+            this.layout = Blank;
+          }
+
+          break;
+      }
+    }
+  }
 };
 </script>

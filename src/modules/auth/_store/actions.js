@@ -1,16 +1,20 @@
-// import api from "../_api";
+import api from "../_api";
+import JWT from "../../../api/jwt";
 
-const getAuthenticate = () => {
-  // api.fetchMessages
-  //   .then(response => {
-  //     context.commit("MESSAGES_UPDATED", response);
-  //   })
-  //   .catch(error => {
-  //     // eslint-disable-next-line
-  //     console.error(error);
-  //   });
+const getAuthenticate = async ({ commit }, object) => {
+  const response = await api.getAuthenticate(object);
+  JWT.saveToken(response.data.token);
+  commit("SET_USER_AUTHENTICATED", response.data);
+  return response;
+};
+
+const getUserInformationWithToken = async ({ commit }) => {
+  const response = await api.getUserInformationWithToken();
+  commit("SET_USER_AUTHENTICATED", response.data);
+  return response;
 };
 
 export default {
-  getAuthenticate
+  getAuthenticate,
+  getUserInformationWithToken
 };

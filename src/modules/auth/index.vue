@@ -1,27 +1,27 @@
 <template>
   <v-row justify="center" style="height: 100%;">
     <v-col cols="auto" align-self="center">
-      <v-card tile class="mx-auto my-12 pl-6 pr-6 pb-6">
-        <v-card-title class="justify-center">
-          <v-row>
-            <v-col cols="12" class="text-center">
-              <span
-                class="d-block accent--text text-h5 font-weight-medium text-center"
-              >
-                Bem vindo ao Pistorium
-              </span>
-              <span class="d-block accent--text text-h6 font-weight-thin">
-                Logue-se para continuar
-              </span>
-            </v-col>
-          </v-row>
-        </v-card-title>
+      <validation-observer ref="observer">
+        <v-form @submit="submit" onSubmit="return false;">
+          <v-card tile class="mx-auto my-12 pl-6 pr-6 pb-6">
+            <v-card-title class="justify-center">
+              <v-row>
+                <v-col cols="12" class="text-center">
+                  <span
+                    class="d-block accent--text text-h5 font-weight-medium text-center"
+                  >
+                    Bem vindo ao Pistorium
+                  </span>
+                  <span class="d-block accent--text text-h6 font-weight-thin">
+                    Logue-se para continuar
+                  </span>
+                </v-col>
+              </v-row>
+            </v-card-title>
 
-        <v-card-text>
-          <v-row>
-            <v-col>
-              <validation-observer ref="observer">
-                <v-form @submit="submit">
+            <v-card-text>
+              <v-row>
+                <v-col>
                   <validation-provider
                     v-slot="{ errors }"
                     name="Usuário"
@@ -49,18 +49,18 @@
                       filled
                     ></v-text-field>
                   </validation-provider>
-                </v-form>
-              </validation-observer>
-            </v-col>
-          </v-row>
-        </v-card-text>
+                </v-col>
+              </v-row>
+            </v-card-text>
 
-        <v-card-actions>
-          <v-btn @click="submit" x-large expansed color="primary" tile block>
-            Entrar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+            <v-card-actions>
+              <v-btn type="submit" x-large expansed color="primary" tile block>
+                Entrar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
+      </validation-observer>
     </v-col>
   </v-row>
 </template>
@@ -98,8 +98,11 @@ export default {
     };
   },
   methods: {
-    submit() {
-      this.$refs.observer.validate();
+    async submit() {
+      if (await this.$refs.observer.validate()) {
+        await this.$store.dispatch("$_auth/getAuthenticate", this.form);
+        this.$router.push("/");
+      }
     }
   }
 };
