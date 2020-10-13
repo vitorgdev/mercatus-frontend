@@ -13,6 +13,12 @@ const routes = [
     component: () => import("../modules/dashboard")
   },
   {
+    path: "/products",
+    name: "products",
+    meta: { requiresAuth: true, requiresPermission: true },
+    component: () => import("../modules/products")
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../modules/auth")
